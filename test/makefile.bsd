@@ -1,0 +1,38 @@
+LDFLAGS=-L../
+CFLAGS=-I../ -g -Wall -Werror
+#-Werror
+modules=test test_cli test_list test_pool test_module test_async_queue test_threads test_daemon test_signal
+
+all: $(modules)
+
+test: test.o
+	gcc $(LDFLAGS) $> -o $@ -lstk
+
+test_cli: test_cli.o
+	gcc $(LDFLAGS) -o $@ $> -lstk
+
+test_list: test_list.o
+	gcc $(LDFLAGS) -o $@ $> -lstk
+
+test_pool: test_pool.o
+	gcc $(LDFLAGS) -o $@ $> -lstk
+
+test_module: test_module.o module1.o module2.o module3.o
+	gcc $(LDFLAGS) -o $@ $> -lstk
+
+test_async_queue: test_async_queue.o
+	gcc $(LDFLAGS) -o $@ $> -lstk -lpthread
+
+test_threads: test_threads.o
+	gcc $(LDFLAGS) -o $@ $> -lstk -lpthread
+
+test_daemon: test_daemon.o
+	gcc $(LDFLAGS) -o $@ $> -lstk
+
+%.o: %.c
+	gcc $(CFLAGS) -g -c $>
+
+clean:
+	rm -f *.o test test_cli test_list test_pool test_module test_async_queue test_threads test_daemon test_signal
+
+.PHONY: all clean $(modules)
