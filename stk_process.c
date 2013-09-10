@@ -43,7 +43,7 @@ int             stk_process_slot;
 int             worker_processes_num;
 int             stk_process;
 
-extern stk_signal_t signals[];
+extern stk_signal_t *signals;
 
 
 static stk_uint_t stk_reap_children();
@@ -56,6 +56,7 @@ stk_pid_t stk_spawn_process(stk_spawn_proc_pt proc, void *data,
     assert(proc != NULL);
     stk_pid_t   pid;
     int         s;
+    sigset_t set;
 
     if (respawn >= 0) {
         s = respawn;
@@ -89,6 +90,10 @@ stk_pid_t stk_spawn_process(stk_spawn_proc_pt proc, void *data,
             /* child process */
             stk_pid = stk_getpid();
             stk_process = STK_PROCESS_WORKER;
+            sigemptyset(&set);
+            if (sigprocmask(SIG_SETMASK, &set, NULL) == -1) {
+              stk_log_error("sigprocmask() failed, %d %m", errno);
+            }
             proc(data);
             break;
 

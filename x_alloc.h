@@ -10,6 +10,7 @@
 #define __X_ALLOC_H
 
 #include <string.h>
+#include <stdlib.h>
 
 #define NGX_ALIGNMENT   sizeof(unsigned long)    /*  platform word */
 

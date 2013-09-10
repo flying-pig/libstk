@@ -80,7 +80,7 @@ stk_pool_t *stk_create_pool_recursive(stk_pool_t *pool)
 
   stk_pool_t *p;
   p = stk_create_pool();
-  if (p) stk_pool_cleanup_add(pool, stk_destroy_pool, p);
+  if (p) stk_pool_cleanup_add(pool, (stk_pool_cleanup_pt)stk_destroy_pool, p);
   return p;
 }
 

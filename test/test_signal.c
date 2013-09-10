@@ -12,6 +12,8 @@
 #include "stk_log.h"
 #include "stk_signal.h"
 
+stk_signal_t *signals;
+
 void test_signal_handler(int signo)
 {
     assert(signo == SIGUSR1);
@@ -19,7 +21,7 @@ void test_signal_handler(int signo)
     stk_log_info("process SIGUSR1...............");
 }
 
-stk_signal_t signals[] = {
+stk_signal_t signals_[] = {
     { SIGUSR1, "SIGUSR1", "", test_signal_handler},
     { SIGPIPE, "SIGPIPE, SIG_IGN", "", SIG_IGN },
     { 0, NULL, "", NULL }
@@ -27,7 +29,8 @@ stk_signal_t signals[] = {
 
 int main(int argc, char *argv[])
 {
-    stk_init_signals();
+    //signals = signals_;
+    stk_signals_set(signals_);
 
     while (1) {
         sleep(10);

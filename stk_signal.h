@@ -19,5 +19,8 @@ typedef struct {
 } stk_signal_t;
 
 int stk_init_signals();
+int stk_init_signal(int signo, void (*handler)(int signo));
+int stk_signals_set(stk_signal_t *signals);
+
 
 #endif /*__STK_SIGNAL_H*/

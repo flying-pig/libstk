@@ -19,27 +19,31 @@
 #include "stk_process.h"
 #include "stk_signal.h"
 
+stk_signal_t *signals;
+extern int stk_terminate;
 
 void test_signal_handler(int signo);
 
 void test_worker_proc(void *data)
 {
-    sigset_t    set;
+    //sigset_t    set;
 
-    sigemptyset(&set);
-    sigaddset(&set, SIGTERM);
-    sigprocmask(SIG_UNBLOCK, &set, NULL);
+    //sigemptyset(&set);
+    //sigaddset(&set, SIGTERM);
+    //sigprocmask(SIG_UNBLOCK, &set, NULL);
     for ( ;; ) {
         stk_log_debug("worker: do process here!");
+        stk_log_info("%d stk_terminate = %d", getpid(), stk_terminate);
         sleep(3);
     }
 }
 
-stk_signal_t signals[] = {
+stk_signal_t signals_[] = {
     { SIGALRM, "SIGALRM", "", stk_master_signal_handler},
     { SIGCHLD, "SIGCHLD", "", stk_master_signal_handler},
     { SIGUSR1, "SIGUSR1", "", test_signal_handler},
-    { SIGTERM, "SIGTERM", "", test_signal_handler},
+    { SIGTERM, "SIGTERM", "", stk_master_signal_handler},
+    { SIGINT,  "SIGINT",  "", stk_master_signal_handler},
     { 0, NULL, "", NULL }
 };
 
@@ -47,7 +51,7 @@ void test_signal_handler(int signo)
 {
     stk_signal_t *sig;
 
-    for (sig = signals; sig->signo != 0; ++sig) {
+    for (sig = signals_; sig->signo != 0; ++sig) {
         if (sig->signo == signo) {
             break;
         }
@@ -69,6 +73,7 @@ void test_signal_handler(int signo)
 
 int main(int argc, char *argv[])
 {
+    signals = signals_;
     stk_init_signals();
     stk_set_worker_num(2);
     stk_set_worker_process(test_worker_proc, NULL, "test_worker");
