@@ -2,7 +2,7 @@ LDFLAGS=-L../
 CFLAGS=-I../ -g -Wall -Werror
 #-Werror
 modules=test test_cli test_list test_pool test_module test_async_queue test_threads test_daemon test_signal	test_process \
-				test_x_palloc test_string test_ae test_
+				test_x_palloc test_string test_ae test_setproctitle
 
 all: $(modules)
 
@@ -43,6 +43,9 @@ test_string: test_string.o
 	gcc $(LDFLAGS) -o $@ $^ -lstk
 
 test_ae: test_ae.o
+	gcc $(LDFLAGS) -o $@ $^ -lstk
+
+test_setproctitle: test_setproctitle.o
 	gcc $(LDFLAGS) -o $@ $^ -lstk
 
 %.o: %.c

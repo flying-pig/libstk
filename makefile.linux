@@ -4,7 +4,7 @@ all: libstk.a
 	make -C ./test
 
 libstk.a: stk_log.o  stk_socket.o stk_pool.o stk_module.o stk_async_queue.o stk_threads.o daemon.o stk_signal.o	\
-		  stk_process.o x_palloc.o x_alloc.o stk_string.o ae.o zmalloc.o
+		  stk_process.o x_palloc.o x_alloc.o stk_string.o ae.o zmalloc.o stk_setproctitle.o
 	ar cru $@ $^
 
 %.o: %.c

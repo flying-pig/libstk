@@ -20,6 +20,7 @@ typedef uintptr_t       stk_uint_t;
 
 #define STK_OK           0
 #define STK_ERR         -1
+#define STK_ERROR        STK_ERR
 #define STK_DECLINED    -2
 #define STK_AGAIN       -3
 

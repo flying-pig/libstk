@@ -184,3 +184,21 @@ size_t trim(char *out, size_t len, const char *p)
   return out_size;
 }
 
+u_char *stk_cpystrn(u_char *dst, u_char *src, size_t n)
+{
+    if (n == 0) {
+        return dst;
+    }
+
+    for ( /* void */ ; --n; dst++, src++) {
+        *dst = *src;
+
+        if (*dst == '\0') {
+            return dst;
+        }
+    }
+
+    *dst = '\0';
+
+    return dst;
+}
