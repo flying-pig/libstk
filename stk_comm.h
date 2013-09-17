@@ -28,6 +28,11 @@ typedef uintptr_t       stk_uint_t;
 #define stk_align_ptr(p, a)         \
   (u_char *) (((uintptr_t) (p) + ((uintptr_t) a - 1)) & ~((uintptr_t) a - 1))
 
+#define setbit(x, y) ((x) |= (1 << (y)))
+#define clrbit(x, y) ((x) &= ~(1 << (y)))
+#define getbit(x, y) (((x) >> (y)) & 1)
+#define revbit(x, y) ((x) ^= (1 << (y)))
+
 int daemonize(int nochdir, int noclose);
 
 
